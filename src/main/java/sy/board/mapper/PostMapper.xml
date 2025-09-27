@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sy.board.mapper.PostMapper">
+
+    <resultMap id="PostMap" type="sy.board.domain.Post">
+        <id    property="id"         column="id"/>
+        <result property="title"     column="title"/>
+        <result property="content"   column="content"/>
+        <result property="author"    column="author"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, title, content, author, view_count, created_at, updated_at
+    </sql>
+
+    <insert id="insert" parameterType="sy.board.domain.Post" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO posts (title, content, author)
+        VALUES (#{title}, #{content}, #{author})
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="PostMap">
+        SELECT <include refid="BaseColumns"/> FROM posts WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="PostMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM posts
+        <where>
+            <if test="keyword != null">
+                (title ILIKE #{keyword} OR content ILIKE #{keyword} OR author ILIKE #{keyword})
+            </if>
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM posts
+        <where>
+            <if test="keyword != null">
+                (title ILIKE #{keyword} OR content ILIKE #{keyword} OR author ILIKE #{keyword})
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="sy.board.domain.Post">
+        UPDATE posts
+        SET title = #{title}, content = #{content}, author = #{author}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM posts WHERE id = #{id}
+    </delete>
+
+    <update id="increaseViewCount" parameterType="long">
+        UPDATE posts SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>
