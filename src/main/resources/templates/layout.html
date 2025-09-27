@@ -1,0 +1,29 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:insert="${title} ?: 'Board'">Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { max-width: 960px; margin: 2rem auto; font-family: system-ui, sans-serif; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        nav a { margin-right: .5rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #ddd; padding: .5rem; }
+        .right { text-align: right; }
+        .actions a, .actions button { margin-right: .4rem; }
+        form.inline { display: inline; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<header>
+    <h1><a th:href="@{/posts}">게시판</a></h1>
+    <nav>
+        <a th:href="@{/posts}">목록</a>
+        <a th:href="@{/posts/new}">글쓰기</a>
+    </nav>
+</header>
+<main th:insert="~{::body}"></main>
+</body>
+</html>

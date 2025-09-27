@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: body}">
+<body>
+<article>
+    <h2 th:text="${post.title}">제목</h2>
+    <p>
+        <b th:text="${post.author}">작성자</b>
+        <span style="margin-left:.5rem;" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+        <span style="margin-left:.5rem;">조회 <span th:text="${post.viewCount}">0</span></span>
+    </p>
+    <pre th:text="${post.content}" style="white-space:pre-wrap;"></pre>
+
+    <div class="actions" style="margin-top:1rem;">
+        <a th:href="@{|/posts/${post.id}/edit|}">수정</a>
+        <form class="inline" th:action="@{|/posts/${post.id}|}" method="post" id="deleteForm">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit" id="deleteBtn">삭제</button>
+        </form>
+        <a th:href="@{/posts}">목록</a>
+    </div>
+</article>
+
+<script>
+    // jQuery로 삭제 확인 및 비동기 처리(간단)
+    $(function(){
+      $("#deleteForm").on("submit", function(e){
+        if(!confirm("정말 삭제할까요?")) { e.preventDefault(); return; }
+        // 기본 동기 요청(redirect) 사용. 필요시 아래 AJAX로 대체 가능:
+        /*
+        e.preventDefault();
+        $.ajax({
+          url: $(this).attr('action'),
+          method: 'POST',
+          data: { _method: 'delete' }
+        }).done(function(){ window.location = '/posts'; });
+        */
+      });
+    });
+</script>
+</body>
+</html>
