@@ -26,30 +26,34 @@
         SELECT <include refid="BaseColumns"/> FROM posts WHERE id = #{id}
     </select>
 
-    <select id="findAll" resultMap="PostMap">
-        SELECT <include refid="BaseColumns"/>
+    <select id="findAll" resultType="sy.board.domain.Post">
+        SELECT *
         FROM posts
         <where>
             <if test="keyword != null">
-                (title ILIKE #{keyword} OR content ILIKE #{keyword} OR author ILIKE #{keyword})
+                title LIKE #{keyword} OR content LIKE #{keyword}
             </if>
         </where>
-        ORDER BY created_at DESC
+        ORDER BY id DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="count" resultType="long">
-        SELECT COUNT(*) FROM posts
+        SELECT COUNT(*)
+        FROM posts
         <where>
             <if test="keyword != null">
-                (title ILIKE #{keyword} OR content ILIKE #{keyword} OR author ILIKE #{keyword})
+                title LIKE #{keyword} OR content LIKE #{keyword}
             </if>
         </where>
     </select>
 
     <update id="update" parameterType="sy.board.domain.Post">
         UPDATE posts
-        SET title = #{title}, content = #{content}, author = #{author}
+        SET title = #{title},
+        content = #{content},
+        author = #{author},
+        updated_at = NOW()
         WHERE id = #{id}
     </update>
 

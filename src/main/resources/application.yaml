@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/board
     username: board
-    password: board123
+    password: board
     driver-class-name: org.postgresql.Driver
 
   sql:
@@ -21,7 +21,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: com.example.board.domain
+  type-aliases-package: sy.board.domain
   configuration:
     map-underscore-to-camel-case: true
     jdbc-type-for-null: 'NULL'
@@ -31,4 +31,4 @@ server:
 
 logging:
   level:
-    com.example.board: debug
+    sy.board: debug

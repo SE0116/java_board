@@ -1,8 +1,9 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(titleFrag, contentFrag)">
 <head>
     <meta charset="UTF-8" />
-    <title th:insert="${title} ?: 'Board'">Board</title>
+    <title th:replace="${titleFrag}">Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
         body { max-width: 960px; margin: 2rem auto; font-family: system-ui, sans-serif; }
@@ -24,6 +25,7 @@
         <a th:href="@{/posts/new}">글쓰기</a>
     </nav>
 </header>
-<main th:insert="~{::body}"></main>
+
+<main th:replace="${contentFrag}">내용</main>
 </body>
 </html>
