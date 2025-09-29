@@ -27,11 +27,19 @@
     </select>
 
     <select id="findAll" resultType="sy.board.domain.Post">
-        SELECT *
+        SELECT id,
+        title,
+        content,
+        author,
+        view_count AS viewCount,
+        created_at AS createdAt,
+        updated_at AS updatedAt
         FROM posts
         <where>
-            <if test="keyword != null">
-                title LIKE #{keyword} OR content LIKE #{keyword}
+            <if test="q != null and q != ''">
+                (title ILIKE '%' || #{q} || '%'
+                OR content ILIKE '%' || #{q} || '%'
+                OR author ILIKE '%' || #{q} || '%')
             </if>
         </where>
         ORDER BY id DESC
@@ -42,11 +50,21 @@
         SELECT COUNT(*)
         FROM posts
         <where>
-            <if test="keyword != null">
-                title LIKE #{keyword} OR content LIKE #{keyword}
+            <if test="q != null and q != ''">
+                (title ILIKE '%' || #{q} || '%'
+                OR content ILIKE '%' || #{q} || '%'
+                OR author ILIKE '%' || #{q} || '%')
             </if>
         </where>
     </select>
+
+    <delete id="deleteByIds">
+        DELETE FROM posts
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <update id="update" parameterType="sy.board.domain.Post">
         UPDATE posts

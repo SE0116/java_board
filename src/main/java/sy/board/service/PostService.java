@@ -17,13 +17,20 @@ public class PostService {
     private final PostMapper postMapper;
 
     @Transactional(readOnly = true)
-    public List<Post> list(PageParam page) {
-        return postMapper.findAll(page.offset(), page.getSize(), page.keywordLikeOrNull());
+    public java.util.List<Post> list(int page, int size, String q) {
+        int offset = (Math.max(1, page) - 1) * Math.max(1, size);
+        return postMapper.findAll(offset, size, q);
     }
 
     @Transactional(readOnly = true)
-    public long count(PageParam page) {
-        return postMapper.count(page.keywordLikeOrNull());
+    public long count(String q) {
+        return postMapper.count(q);
+    }
+
+    @Transactional
+    public void deleteByIds(java.util.List<Long> ids) {
+        if (ids == null || ids.isEmpty()) return;
+        postMapper.deleteByIds(ids);
     }
 
     @Transactional(readOnly = true)

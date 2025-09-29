@@ -14,7 +14,16 @@
         </div>
     </header>
 
-    <form th:action="@{/posts}" th:object="${post}" method="post" class="form">
+    <form
+            th:action="${post.id} != null ? @{|/posts/${post.id}|} : @{/posts}"
+            th:object="${post}"
+            method="post"
+            class="form">
+
+        <!-- 편집 모드일 때만 PUT 메서드 오버라이드 -->
+        <input type="hidden" name="_method" value="PUT" th:if="${post.id != null}"/>
+
+        <!-- 나머지 입력 필드는 그대로 -->
         <div class="form-row">
             <label for="title">제목</label>
             <input id="title" type="text" th:field="*{title}" required />
