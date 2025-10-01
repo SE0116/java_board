@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sy.board.domain.Post;
 import sy.board.mapper.PostMapper;
-import sy.board.support.PageParam;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
