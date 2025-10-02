@@ -8,6 +8,7 @@ import sy.board.mapper.PostMapper;
 
 @Service
 @RequiredArgsConstructor
+//
 @Transactional
 public class PostService {
 

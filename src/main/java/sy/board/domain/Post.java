@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter @Setter
 public class Post {
     private Long id;
-
+    // size length/byte
     @NotBlank @Size(max = 200)
     private String title;
 

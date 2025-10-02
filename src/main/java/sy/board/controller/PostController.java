@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.InitBinder;
 
 import java.beans.PropertyEditorSupport;
 
@@ -40,7 +39,7 @@ public class PostController {
                        @RequestParam(defaultValue = "10") int size,
                        @RequestParam(required = false) String q,
                        Model model) {
-
+        // service or util
         // 목록 & 총 개수
         var posts = postService.list(page, size, q);
         long total = postService.count(q);
@@ -72,13 +71,16 @@ public class PostController {
         int prevPage = Math.max(1, start - 1);
         int nextPage = Math.min(totalPages, end + 1);
 
+        // error 처리
         // 페이지 목록
         var pagesToShow = java.util.stream.IntStream.rangeClosed(start, end)
                 .boxed().toList();
 
+        // 따로 정리
         model.addAttribute("posts", posts);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        // 조건도 따로
         model.addAttribute("q", q);
         model.addAttribute("total", total);
         model.addAttribute("totalPages", totalPages);
@@ -129,6 +131,7 @@ public class PostController {
         return "redirect:/posts/" + id;
     }
 
+    // 리스트로 받아서 하나로 통일
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
         postService.delete(id);

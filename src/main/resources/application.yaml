@@ -1,3 +1,4 @@
+# yaml, properties 통합
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/board
